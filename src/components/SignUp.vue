@@ -89,7 +89,15 @@
         </option>
       </select>
     </div>
-
+    <div class="form-group form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="rules"
+        v-model="form.rules"
+      />
+      <label class="form-check-label" for="rules">Rules understanding</label>
+    </div>
     <div class="form-group form-check">
       <input
         type="checkbox"
@@ -145,6 +153,7 @@ export default {
         favoiriteThemes: ["IT"],
         agreeWithSendEmail: false,
         gendere: "male",
+        rules: "",
       },
       countries: [
         {
