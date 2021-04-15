@@ -93,10 +93,17 @@
       <input
         type="checkbox"
         class="form-check-input"
+        :class="$v.form.rules.$error ? 'is-invalid' : ''"
         id="rules"
         v-model="form.rules"
       />
       <label class="form-check-label" for="rules">Rules understanding</label>
+      <p
+        v-if="$v.form.rules.$dirty && !$v.form.rules.truly"
+        class="invalid-feedback"
+      >
+        Read rules!!!
+      </p>
     </div>
     <div class="form-group form-check">
       <input
@@ -190,6 +197,11 @@ export default {
       login: { required, minLength: minLength(5) },
       email: { required, email },
       password: { required },
+      rules: {
+        truly(value) {
+          return value;
+        },
+      },
     },
   },
   methods: {
