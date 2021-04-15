@@ -77,6 +77,7 @@
       <select
         id="themes"
         class="form-control"
+        :class="$v.form.favoiriteThemes.$error ? 'is-invalid' : ''"
         v-model="form.favoiriteThemes"
         multiple
       >
@@ -88,6 +89,12 @@
           {{ theme.label }}
         </option>
       </select>
+      <p
+        v-if="$v.form.login.$dirty && !$v.form.favoiriteThemes.maxLength"
+        class="invalid-feedback"
+      >
+        Не больше 3-х тем
+      </p>
     </div>
     <div class="form-group form-check">
       <input
@@ -143,11 +150,15 @@
     <button type="submit" class="btn btn-primary">Сохранить</button>
   </form>
 </template>
-
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, email } from "vuelidate/lib/validators";
-
+import {
+  required,
+  minLength,
+  email,
+  maxLength,
+  truly,
+} from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
   data() {
@@ -159,8 +170,8 @@ export default {
         country: "Russia",
         favoiriteThemes: ["IT"],
         agreeWithSendEmail: false,
-        gendere: "male",
         rules: "",
+        gendere: "male",
       },
       countries: [
         {
@@ -189,6 +200,10 @@ export default {
           label: "Математика",
           value: "mathematics",
         },
+        {
+          label: "История",
+          value: "history",
+        },
       ],
     };
   },
@@ -200,6 +215,11 @@ export default {
       rules: {
         truly(value) {
           return value;
+        },
+      },
+      favoiriteThemes: {
+        maxLength(value) {
+          return value.length <= 3;
         },
       },
     },
@@ -214,7 +234,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .form-control {
   width: 400px;
